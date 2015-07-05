@@ -16,7 +16,7 @@ public class ComponentAnnotationHandler extends AbstractAnnotationHandler {
     @Override
     public void execute(ComponentBean componentBean, Annotation annotation) {
         Properties properties = componentBean.getProperties();
-        Class componentClass = componentBean.getComponentClass();
+        Class<?> componentClass = componentBean.getComponentClass();
         Component componentClassAnnotation = (Component) annotation;
         String path = componentClassAnnotation.path();
         componentBean.setFileName(path);

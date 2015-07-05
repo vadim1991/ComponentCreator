@@ -9,17 +9,17 @@ public class ComponentBean {
 
     private String fileName;
     private Properties properties;
-    private Class componentClass;
+    private Class<?> componentClass;
 
     public ComponentBean() {
         this.properties = new Properties();
     }
 
-    public Class getComponentClass() {
+    public Class<?> getComponentClass() {
         return componentClass;
     }
 
-    public void setComponentClass(Class componentClass) {
+    public void setComponentClass(Class<?> componentClass) {
         this.componentClass = componentClass;
     }
 

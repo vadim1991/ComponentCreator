@@ -24,6 +24,7 @@ public class InjectAnnotationHandler extends AbstractAnnotationHandler {
     }
 
     //in this method we must check value (if it component path)
+    // TODO find out the way to validate this value
     private boolean isValidValue(String value) {
         return true;
     }

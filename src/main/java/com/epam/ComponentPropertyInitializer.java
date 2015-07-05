@@ -22,11 +22,11 @@ public class ComponentPropertyInitializer {
     public List<ComponentBean> getInitializeComponents(List<Class<?>> classList) {
         List<ComponentBean> componentBeans = new ArrayList<ComponentBean>();
         if (classList != null) {
-            for (Class clazz : classList) {
+            for (Class<?> clazz : classList) {
                 ComponentBean componentBean = new ComponentBean();
                 componentBean.setComponentClass(clazz);
                 handleClassAnnotations(clazz, componentBean);
-                handleFieldAnnotations(clazz, componentBean);
+                handleFieldAnnotations(clazz, componentBean);//todo add handling methods annotation. Decide whether preority should be given to methods or fields.
                 componentBeans.add(componentBean);
             }
         }
@@ -44,7 +44,7 @@ public class ComponentPropertyInitializer {
         }
     }
 
-    private void handleFieldAnnotations(Class clazz, ComponentBean componentBean) {
+    private void handleFieldAnnotations(Class<?> clazz, ComponentBean componentBean) {
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             Annotation[] annotations = field.getAnnotations();

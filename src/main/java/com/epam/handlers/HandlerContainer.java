@@ -1,5 +1,10 @@
 package com.epam.handlers;
 
+import com.epam.annotations.Component;
+import com.epam.annotations.InjectValue;
+import com.epam.annotations.LoggingDebug;
+import com.epam.annotations.Scope;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,15 +13,15 @@ import java.util.Map;
  */
 public class HandlerContainer {
 
-    private static String INJECT_VALUE_HANDLER = "InjectValue";
-    private static String COMPONENT_HANDLER = "Component";
-    private static String SCOPE_HANDLER = "Scope";
-    private static String LOGGING_DEBUG_HANDLER = "LoggingDebug";
+    private static final String INJECT_VALUE_HANDLER = InjectValue.class.getSimpleName();
+    private static final String COMPONENT_HANDLER = Component.class.getSimpleName();
+    private static final String SCOPE_HANDLER = Scope.class.getSimpleName();
+    private static final String LOGGING_DEBUG_HANDLER = LoggingDebug.class.getSimpleName();
 
     private Map<String, AnnotationHandler> handlerMap;
 
     public HandlerContainer() {
-        this.handlerMap = new HashMap<String, AnnotationHandler>();
+        handlerMap = new HashMap<String, AnnotationHandler>();
         init();
     }
 
