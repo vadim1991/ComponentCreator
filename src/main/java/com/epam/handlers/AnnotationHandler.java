@@ -1,6 +1,7 @@
 package com.epam.handlers;
 
 import com.epam.ComponentBean;
+import com.epam.annotations.AnnotatedObject;
 
 import java.lang.annotation.Annotation;
 
@@ -9,6 +10,6 @@ import java.lang.annotation.Annotation;
  */
 public interface AnnotationHandler {
 
-    void execute(ComponentBean componentBean, Annotation annotation);
+    void execute(ComponentBean componentBean, AnnotatedObject annotatedObject);
 
 }

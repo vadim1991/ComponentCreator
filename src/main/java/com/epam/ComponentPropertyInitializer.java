@@ -1,10 +1,12 @@
 package com.epam;
 
+import com.epam.annotations.AnnotatedObject;
 import com.epam.handlers.AnnotationHandler;
 import com.epam.handlers.HandlerContainer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,33 +28,48 @@ public class ComponentPropertyInitializer {
                 ComponentBean componentBean = new ComponentBean();
                 componentBean.setComponentClass(clazz);
                 handleClassAnnotations(clazz, componentBean);
-                handleFieldAnnotations(clazz, componentBean);//todo add handling methods annotation. Decide whether preority should be given to methods or fields.
+                handleFieldAnnotations(clazz, componentBean);
+                handleMethodAnnotations(clazz, componentBean);
                 componentBeans.add(componentBean);
             }
         }
         return componentBeans;
     }
 
-    private void handleClassAnnotations(Class clazz, ComponentBean componentBean) {
+    private void handleClassAnnotations(Class<?> clazz, ComponentBean componentBean) {
         Annotation[] annotations = clazz.getAnnotations();
         if (annotations != null) {
-            for (Annotation annotation : annotations) {
-                String annotationName = annotation.annotationType().getSimpleName();
-                AnnotationHandler annotationHandler = handlerContainer.getAnnotationHandler(annotationName);
-                annotationHandler.execute(componentBean, annotation);
-            }
+            parseAnnotations(annotations, componentBean);
         }
     }
 
     private void handleFieldAnnotations(Class<?> clazz, ComponentBean componentBean) {
         Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            Annotation[] annotations = field.getAnnotations();
-            for (Annotation annotation : annotations) {
-                String annotationName = annotation.annotationType().getSimpleName();
-                AnnotationHandler annotationHandler = handlerContainer.getAnnotationHandler(annotationName);
-                annotationHandler.execute(componentBean, annotation);
+        if (fields != null) {
+            for (Field field : fields) {
+                Annotation[] annotations = field.getAnnotations();
+                parseAnnotations(annotations, componentBean);
             }
+        }
+    }
+
+    private void handleMethodAnnotations(Class<?> clazz, ComponentBean componentBean) {
+        Method[] methods = clazz.getDeclaredMethods();
+        if (methods != null) {
+            for (Method method : methods) {
+                Annotation[] annotations = method.getAnnotations();
+                parseAnnotations(annotations, componentBean);
+            }
+        }
+    }
+
+    private void parseAnnotations(Annotation[] annotations, ComponentBean componentBean) {
+        for (Annotation annotation : annotations) {
+            AnnotatedObject annotatedObject = new AnnotatedObject();
+            annotatedObject.setAnnotation(annotation);
+            String annotationName = annotation.annotationType().getSimpleName();
+            AnnotationHandler annotationHandler = handlerContainer.getAnnotationHandler(annotationName);
+            annotationHandler.execute(componentBean, annotatedObject);
         }
     }
 

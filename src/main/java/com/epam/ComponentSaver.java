@@ -1,8 +1,6 @@
 package com.epam;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,15 +23,34 @@ public class ComponentSaver {
 
     //we must check full file name on valid
     private void saveComponent(ComponentBean componentBean, String configPath) throws IOException {
+        Properties properties = componentBean.getProperties();
         String fileName = componentBean.getFileName() + ".properties";
         String fullFileName = configPath + File.separator + fileName;
         File file = new File(fullFileName);
-        file.getParentFile().mkdirs();
-        file.createNewFile();
-        Properties properties = componentBean.getProperties();
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+        } else {
+            Properties propertiesFromFile = loadPropertiesFromFile(file);
+            properties = copyPropertiesFromFile(properties, propertiesFromFile);
+        }
         FileOutputStream outputStream = new FileOutputStream(file);
         properties.store(outputStream, "create by custom library");
         outputStream.close();
+    }
+
+    private Properties loadPropertiesFromFile(File file) throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(file);
+        properties.load(fileInputStream);
+        return properties;
+    }
+
+    private Properties copyPropertiesFromFile(Properties properties, Properties propertiesFromFile) {
+        if (properties != null & propertiesFromFile != null) {
+            propertiesFromFile.putAll(properties);
+        }
+        return propertiesFromFile;
     }
 
 }

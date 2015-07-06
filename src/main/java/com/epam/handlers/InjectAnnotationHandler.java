@@ -1,6 +1,7 @@
 package com.epam.handlers;
 
 import com.epam.ComponentBean;
+import com.epam.annotations.AnnotatedObject;
 import com.epam.annotations.InjectValue;
 
 import java.lang.annotation.Annotation;
@@ -12,8 +13,8 @@ import java.util.Properties;
 public class InjectAnnotationHandler extends AbstractAnnotationHandler {
 
     @Override
-    public void execute(ComponentBean componentBean, Annotation annotation) {
-        InjectValue injectValue = (InjectValue) annotation;
+    public void execute(ComponentBean componentBean, AnnotatedObject annotatedObject) {
+        InjectValue injectValue = (InjectValue) annotatedObject.getAnnotation();
         String name = injectValue.name();
         String value = injectValue.value();
         if (!isValidValue(value)) {

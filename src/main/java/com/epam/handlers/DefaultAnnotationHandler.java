@@ -1,6 +1,7 @@
 package com.epam.handlers;
 
 import com.epam.ComponentBean;
+import com.epam.annotations.AnnotatedObject;
 
 import java.lang.annotation.Annotation;
 
@@ -9,7 +10,7 @@ import java.lang.annotation.Annotation;
  */
 public class DefaultAnnotationHandler extends AbstractAnnotationHandler {
     @Override
-    public void execute(ComponentBean componentBean, Annotation annotation) {
+    public void execute(ComponentBean componentBean, AnnotatedObject annotatedObject) {
         System.out.println("You entered bad annotation");
     }
 }

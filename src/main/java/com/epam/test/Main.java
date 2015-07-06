@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         String[] packageNames = {"com.epam"};
         ComponentCreator componentCreator = new ComponentCreator();
-        componentCreator.setConfigPath("c:");
+        componentCreator.setConfigPath("d:");
         componentCreator.setPackageNames(packageNames);
         componentCreator.create();
     }
