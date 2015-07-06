@@ -5,6 +5,7 @@ import com.epam.handlers.AnnotationHandler;
 import com.epam.handlers.HandlerContainer;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class ComponentPropertyInitializer {
         if (fields != null) {
             for (Field field : fields) {
                 Annotation[] annotations = field.getAnnotations();
-                parseAnnotations(annotations, componentBean);
+                parseAnnotations(annotations, componentBean, field);
             }
         }
     }
@@ -58,8 +59,18 @@ public class ComponentPropertyInitializer {
         if (methods != null) {
             for (Method method : methods) {
                 Annotation[] annotations = method.getAnnotations();
-                parseAnnotations(annotations, componentBean);
+                parseAnnotations(annotations, componentBean, method);
             }
+        }
+    }
+
+    private void parseAnnotations(Annotation[] annotations, ComponentBean componentBean, AccessibleObject accessibleObject) {
+        for (Annotation annotation : annotations) {
+            AnnotatedObject annotatedObject = new AnnotatedObject();
+            annotatedObject.setAnnotation(annotation);
+            String annotationName = annotation.annotationType().getSimpleName();
+            AnnotationHandler annotationHandler = handlerContainer.getAnnotationHandler(annotationName);
+            annotationHandler.execute(componentBean, annotatedObject);
         }
     }
 

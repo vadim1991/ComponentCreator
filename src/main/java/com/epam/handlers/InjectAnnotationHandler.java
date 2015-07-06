@@ -5,6 +5,7 @@ import com.epam.annotations.AnnotatedObject;
 import com.epam.annotations.InjectValue;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AccessibleObject;
 import java.util.Properties;
 
 /**
@@ -28,6 +29,11 @@ public class InjectAnnotationHandler extends AbstractAnnotationHandler {
     // TODO find out the way to validate this value
     private boolean isValidValue(String value) {
         return true;
+    }
+
+    private String setPropertyName(String name, AccessibleObject accessibleObject) {
+        //return name.isEmpty()?accessibleObject.
+        return null;
     }
 
 }
