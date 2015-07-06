@@ -1,9 +1,6 @@
 package com.epam.entity;
 
-import com.epam.annotations.Component;
-import com.epam.annotations.InjectValue;
-import com.epam.annotations.LoggingDebug;
-import com.epam.annotations.Scope;
+import com.epam.annotations.*;
 import com.epam.annotations.scope.ComponentScope;
 
 /**
@@ -12,6 +9,10 @@ import com.epam.annotations.scope.ComponentScope;
 @Component(path = "apple/apple")
 @Scope(value = ComponentScope.SESSION)
 @LoggingDebug(value = false)
+@BaseProperties(baseProperties = {
+        "baseProp1=value1",
+        "baseProp2+=value2"
+})
 public class Apple {
 
     @InjectValue(value = "yellow apple")

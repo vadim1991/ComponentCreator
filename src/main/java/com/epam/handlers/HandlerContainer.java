@@ -1,9 +1,6 @@
 package com.epam.handlers;
 
-import com.epam.annotations.Component;
-import com.epam.annotations.InjectValue;
-import com.epam.annotations.LoggingDebug;
-import com.epam.annotations.Scope;
+import com.epam.annotations.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +14,7 @@ public class HandlerContainer {
     private static final String COMPONENT_HANDLER = Component.class.getSimpleName();
     private static final String SCOPE_HANDLER = Scope.class.getSimpleName();
     private static final String LOGGING_DEBUG_HANDLER = LoggingDebug.class.getSimpleName();
+    private static final String BASE_PROPERTY_HANDLER = BaseProperties.class.getSimpleName();
 
     private Map<String, AnnotationHandler> handlerMap;
 
@@ -38,5 +36,6 @@ public class HandlerContainer {
         handlerMap.put(COMPONENT_HANDLER, new ComponentAnnotationHandler());
         handlerMap.put(SCOPE_HANDLER, new ScopeAnnotationHandler());
         handlerMap.put(LOGGING_DEBUG_HANDLER, new LoggingDebugHandler());
+        handlerMap.put(BASE_PROPERTY_HANDLER, new BasePropertiesAnnotationHandler());
     }
 }
