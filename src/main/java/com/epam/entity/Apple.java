@@ -14,7 +14,7 @@ import com.epam.annotations.scope.ComponentScope;
 @LoggingDebug(value = false)
 public class Apple {
 
-    @InjectValue(name = "apple", value = "yellow apple")
+    @InjectValue(value = "yellow apple")
     private String nameApple;
 
     public String getNameApple() {

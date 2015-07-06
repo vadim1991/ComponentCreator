@@ -1,11 +1,9 @@
 package com.epam.handlers;
 
 import com.epam.ComponentBean;
-import com.epam.annotations.AnnotatedObject;
+import com.epam.annotatedobject.AbstractAnnotatedObject;
 import com.epam.annotations.InjectValue;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AccessibleObject;
 import java.util.Properties;
 
 /**
@@ -14,13 +12,14 @@ import java.util.Properties;
 public class InjectAnnotationHandler extends AbstractAnnotationHandler {
 
     @Override
-    public void execute(ComponentBean componentBean, AnnotatedObject annotatedObject) {
+    public void execute(ComponentBean componentBean, AbstractAnnotatedObject annotatedObject) {
         InjectValue injectValue = (InjectValue) annotatedObject.getAnnotation();
         String name = injectValue.name();
         String value = injectValue.value();
         if (!isValidValue(value)) {
             throw new RuntimeException();
         }
+        name = getPropertyName(name, annotatedObject);
         Properties properties = componentBean.getProperties();
         properties.put(name, value);
     }
@@ -31,9 +30,8 @@ public class InjectAnnotationHandler extends AbstractAnnotationHandler {
         return true;
     }
 
-    private String setPropertyName(String name, AccessibleObject accessibleObject) {
-        //return name.isEmpty()?accessibleObject.
-        return null;
+    private String getPropertyName(String name, AbstractAnnotatedObject annotatedObject) {
+        return name.isEmpty() ? annotatedObject.getName() : name;
     }
 
 }

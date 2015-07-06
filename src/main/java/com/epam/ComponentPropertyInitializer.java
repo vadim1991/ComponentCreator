@@ -1,11 +1,13 @@
 package com.epam;
 
-import com.epam.annotations.AnnotatedObject;
+import com.epam.annotatedobject.AbstractAnnotatedObject;
+import com.epam.annotatedobject.ClassAnnotatedObject;
+import com.epam.annotatedobject.FieldAnnotatedObject;
+import com.epam.annotatedobject.MethodAnnotatedObject;
 import com.epam.handlers.AnnotationHandler;
 import com.epam.handlers.HandlerContainer;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class ComponentPropertyInitializer {
     private void handleClassAnnotations(Class<?> clazz, ComponentBean componentBean) {
         Annotation[] annotations = clazz.getAnnotations();
         if (annotations != null) {
-            parseAnnotations(annotations, componentBean);
+            parseAnnotations(annotations, componentBean, new ClassAnnotatedObject());
         }
     }
 
@@ -49,7 +51,7 @@ public class ComponentPropertyInitializer {
         if (fields != null) {
             for (Field field : fields) {
                 Annotation[] annotations = field.getAnnotations();
-                parseAnnotations(annotations, componentBean, field);
+                parseAnnotations(annotations, componentBean, new FieldAnnotatedObject(field));
             }
         }
     }
@@ -59,24 +61,13 @@ public class ComponentPropertyInitializer {
         if (methods != null) {
             for (Method method : methods) {
                 Annotation[] annotations = method.getAnnotations();
-                parseAnnotations(annotations, componentBean, method);
+                parseAnnotations(annotations, componentBean, new MethodAnnotatedObject(method));
             }
         }
     }
 
-    private void parseAnnotations(Annotation[] annotations, ComponentBean componentBean, AccessibleObject accessibleObject) {
+    private void parseAnnotations(Annotation[] annotations, ComponentBean componentBean, AbstractAnnotatedObject annotatedObject) {
         for (Annotation annotation : annotations) {
-            AnnotatedObject annotatedObject = new AnnotatedObject();
-            annotatedObject.setAnnotation(annotation);
-            String annotationName = annotation.annotationType().getSimpleName();
-            AnnotationHandler annotationHandler = handlerContainer.getAnnotationHandler(annotationName);
-            annotationHandler.execute(componentBean, annotatedObject);
-        }
-    }
-
-    private void parseAnnotations(Annotation[] annotations, ComponentBean componentBean) {
-        for (Annotation annotation : annotations) {
-            AnnotatedObject annotatedObject = new AnnotatedObject();
             annotatedObject.setAnnotation(annotation);
             String annotationName = annotation.annotationType().getSimpleName();
             AnnotationHandler annotationHandler = handlerContainer.getAnnotationHandler(annotationName);
